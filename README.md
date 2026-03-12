@@ -71,9 +71,9 @@ nmap --script vuln 127.0.0.1
 
 **Análisis:**
 
-El script `vuln` detectó únicamente el puerto 22/tcp abierto (SSH) pero no encontró vulnerabilidades activas. Esto es esperable en una instalación fresca de Kali con una versión reciente de OpenSSH correctamente configurada.
+El script vuln detectó únicamente el puerto 22/tcp abierto (SSH) pero no encontró vulnerabilidades activas. Esto es esperable en una instalación fresca de Kali con una versión reciente de OpenSSH correctamente configurada.
 
-Este tipo de escaneo es muy útil en auditorías de seguridad porque automatiza la búsqueda de CVEs conocidos. Por ejemplo, si el servidor tuviera una versión desactualizada de OpenSSH, el script podría detectar vulnerabilidades como `CVE-2023-38408`. Ejecutar este escaneo sobre sistemas propios de forma periódica permite encontrar debilidades antes de que lo haga un atacante externo.
+Este tipo de escaneo es muy útil en auditorías de seguridad porque automatiza la búsqueda de CVEs conocidos. Por ejemplo, si el servidor tuviera una versión desactualizada de OpenSSH, el script podría detectar vulnerabilidades como CVE-2023-38408. Ejecutar este escaneo sobre sistemas propios de forma periódica permite encontrar debilidades antes de que lo haga un atacante externo.
 
 ---
 
