@@ -21,7 +21,7 @@ sudo nmap -sn 192.168.1.0/24
 
 **Análisis:**
 
-El escaneo tardó aproximadamente 103 segundos en recorrer las 256 direcciones del segmento /24. El resultado fue de **0 hosts activos** (0 hosts up). Esto ocurre porque el entorno de Kali Linux estaba corriendo de forma virtualizada sin conectividad activa hacia otros dispositivos en ese rango de IPs.
+El escaneo tardó aproximadamente 103 segundos en recorrer las 256 direcciones del segmento /24. El resultado fue de 0 hosts activos (0 hosts up). Esto ocurre porque el entorno de Kali Linux estaba corriendo de forma virtualizada sin conectividad activa hacia otros dispositivos en ese rango de IPs.
 
 En un entorno con dispositivos reales, la salida mostraría la dirección IP y la dirección MAC de cada host que responda. Con la MAC se puede identificar el fabricante del adaptador de red usando los primeros tres octetos (OUI), lo cual es útil para inferir el tipo de dispositivo: router, cámara IP, celular, laptop, etc.
 
@@ -141,7 +141,7 @@ Los resultados obtenidos fueron:
 | 443/tcp | closed | HTTPS |
 | 8080/tcp | closed | HTTP-Proxy |
 
-**¿Qué significa "filtered"?** Un puerto aparece como `filtered` cuando un firewall o dispositivo de red intermedio está bloqueando activamente los paquetes sin devolver ninguna respuesta (ni RST ni SYN/ACK). En este caso no aparecieron puertos filtrados porque no había un firewall activo en la interfaz loopback. En una red real con reglas `DROP` en `iptables`, muchos puertos aparecerían como filtrados. El dispositivo que normalmente causa ese estado es un firewall de red, un router con ACLs, o un host-based firewall.
+**¿Qué significa "filtered"?** Un puerto aparece como filtered cuando un firewall o dispositivo de red intermedio está bloqueando activamente los paquetes sin devolver ninguna respuesta (ni RST ni SYN/ACK). En este caso no aparecieron puertos filtrados porque no había un firewall activo en la interfaz loopback. En una red real con reglas `DROP` en iptables, muchos puertos aparecerían como filtrados. El dispositivo que normalmente causa ese estado es un firewall de red, un router con ACLs, o un host-based firewall.
 
 ---
 
@@ -151,7 +151,7 @@ Se ejecutó un escaneo con la intensidad de detección de versión al máximo pa
 
 **Comando ejecutado:**
 
-```bash
+
 nmap -sV --version-intensity 9 127.0.0.1
 
 
