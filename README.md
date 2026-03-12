@@ -21,7 +21,7 @@ sudo nmap -sn 192.168.1.0/24
 
 **Análisis:**
 
-El escaneo tardó aproximadamente 103 segundos en recorrer las 256 direcciones del segmento `/24`. El resultado fue de **0 hosts activos** (`0 hosts up`). Esto ocurre porque el entorno de Kali Linux estaba corriendo de forma virtualizada sin conectividad activa hacia otros dispositivos en ese rango de IPs.
+El escaneo tardó aproximadamente 103 segundos en recorrer las 256 direcciones del segmento /24. El resultado fue de **0 hosts activos** (0 hosts up). Esto ocurre porque el entorno de Kali Linux estaba corriendo de forma virtualizada sin conectividad activa hacia otros dispositivos en ese rango de IPs.
 
 En un entorno con dispositivos reales, la salida mostraría la dirección IP y la dirección MAC de cada host que responda. Con la MAC se puede identificar el fabricante del adaptador de red usando los primeros tres octetos (OUI), lo cual es útil para inferir el tipo de dispositivo: router, cámara IP, celular, laptop, etc.
 
@@ -29,7 +29,7 @@ En un entorno con dispositivos reales, la salida mostraría la dirección IP y l
 
 ### b) Escaneo de Puertos y Servicios
 
-Una vez identificado el objetivo (en este caso `localhost`), se escanearon los puertos abiertos y los servicios activos con detección de versión, y también se intentó identificar el sistema operativo.
+Una vez identificado el objetivo (en este caso localhost), se escanearon los puertos abiertos y los servicios activos con detección de versión, y también se intentó identificar el sistema operativo.
 
 **Comandos ejecutados:**
 
@@ -49,15 +49,15 @@ sudo nmap -O 127.0.0.1
 
 **Análisis:**
 
-Con `nmap -sV` se detectó que el **puerto 22/tcp está abierto** y corre **OpenSSH versión 9.3p2** (protocolo 2.0) sobre un sistema Linux. Los 999 puertos restantes aparecen cerrados (`conn-refused`), lo que indica que no hay otros servicios corriendo en localhost.
+Con nmap -sV se detectó que el puerto 22/tcp está abierto y corre OpenSSH versión 9.3p2 (protocolo 2.0) sobre un sistema Linux. Los 999 puertos restantes aparecen cerrados (conn-refused), lo que indica que no hay otros servicios corriendo en localhost.
 
-Con `sudo nmap -O` también se confirmó el puerto 22 abierto con SSH, pero Nmap **no pudo determinar el sistema operativo con precisión**. Esto es normal cuando se escanea localhost, ya que no hay suficiente tráfico de red para hacer el fingerprinting del OS correctamente. Sin embargo, la presencia de OpenSSH ya da un indicio claro de que se trata de un sistema Linux/Unix, lo que coincide con la realidad: Kali Linux.
+Con sudo nmap -O también se confirmó el puerto 22 abierto con SSH, pero Nmap no pudo determinar el sistema operativo con precisión. Esto es normal cuando se escanea localhost, ya que no hay suficiente tráfico de red para hacer el fingerprinting del OS correctamente. Sin embargo, la presencia de OpenSSH ya da un indicio claro de que se trata de un sistema Linux/Unix, lo que coincide con la realidad: Kali Linux.
 
 ---
 
 ### c) Uso de Scripts NSE — Escaneo de Vulnerabilidades
 
-Se ejecutó el script `vuln` del motor de scripts de Nmap (NSE) para buscar vulnerabilidades conocidas en los servicios del localhost.
+Se ejecutó el script vuln del motor de scripts de Nmap (NSE) para buscar vulnerabilidades conocidas en los servicios del localhost.
 
 **Comando ejecutado:**
 
@@ -71,7 +71,7 @@ nmap --script vuln 127.0.0.1
 
 **Análisis:**
 
-El script `vuln` detectó únicamente el **puerto 22/tcp abierto (SSH)** pero **no encontró vulnerabilidades activas**. Esto es esperable en una instalación fresca de Kali con una versión reciente de OpenSSH correctamente configurada.
+El script `vuln` detectó únicamente el puerto 22/tcp abierto (SSH) pero no encontró vulnerabilidades activas. Esto es esperable en una instalación fresca de Kali con una versión reciente de OpenSSH correctamente configurada.
 
 Este tipo de escaneo es muy útil en auditorías de seguridad porque automatiza la búsqueda de CVEs conocidos. Por ejemplo, si el servidor tuviera una versión desactualizada de OpenSSH, el script podría detectar vulnerabilidades como `CVE-2023-38408`. Ejecutar este escaneo sobre sistemas propios de forma periódica permite encontrar debilidades antes de que lo haga un atacante externo.
 
@@ -97,9 +97,9 @@ nmap -T4 -sS 127.0.0.1
 
 **Análisis:**
 
-Ambos comandos fallaron con el mensaje `"You requested a scan type which requires root privileges"`. Esto ocurrió porque el escaneo SYN (`-sS`) requiere permisos de `root` para manipular paquetes a nivel de red y es necesario anteponer `sudo`.
+Ambos comandos fallaron con el mensaje `"You requested a scan type which requires root privileges"`. Esto ocurrió porque el escaneo SYN (-sS) requiere permisos de root para manipular paquetes a nivel de red y es necesario anteponer sudo.
 
-Sin ese error, la diferencia de velocidad entre `T0` y `T4` sería muy notable:
+Sin ese error, la diferencia de velocidad entre T0 y T4 sería muy notable:
 
 | Template | Nombre | Comportamiento |
 |----------|--------|----------------|
@@ -109,7 +109,7 @@ Sin ese error, la diferencia de velocidad entre `T0` y `T4` sería muy notable:
 | T4 | Aggressive | Múltiples paquetes en paralelo, mucho más rápido |
 | T5 | Insane | Velocidad máxima, puede saturar la red |
 
-Un atacante usaría **T0 o T1** para evadir sistemas de detección de intrusiones (IDS/IPS), ya que los patrones de tráfico lentos no superan los umbrales de alerta configurados en esos sistemas. Un escaneo con **T4 o T5** es fácilmente detectable porque genera un pico de conexiones en segundos que cualquier IDS moderno marcaría como anomalía.
+Un atacante usaría T0 o T1 para evadir sistemas de detección de intrusiones (IDS/IPS), ya que los patrones de tráfico lentos no superan los umbrales de alerta configurados en esos sistemas. Un escaneo con T4 o T5 es fácilmente detectable porque genera un pico de conexiones en segundos que cualquier IDS moderno marcaría como anomalía.
 
 ---
 
@@ -121,7 +121,7 @@ Se realizó un escaneo SYN sigiloso sobre un conjunto de puertos de interés com
 
 ```bash
 sudo nmap -sS -p 80,443,22,25,110,143,8080 127.0.0.1
-```
+
 
 **Captura del resultado:**
 
@@ -141,7 +141,7 @@ Los resultados obtenidos fueron:
 | 443/tcp | closed | HTTPS |
 | 8080/tcp | closed | HTTP-Proxy |
 
-**¿Qué significa "filtered"?** Un puerto aparece como `filtered` cuando un firewall o dispositivo de red intermedio está bloqueando activamente los paquetes sin devolver ninguna respuesta (ni `RST` ni `SYN/ACK`). En este caso no aparecieron puertos filtrados porque no había un firewall activo en la interfaz loopback. En una red real con reglas `DROP` en `iptables`, muchos puertos aparecerían como filtrados. El dispositivo que normalmente causa ese estado es un **firewall de red, un router con ACLs, o un host-based firewall**.
+**¿Qué significa "filtered"?** Un puerto aparece como `filtered` cuando un firewall o dispositivo de red intermedio está bloqueando activamente los paquetes sin devolver ninguna respuesta (ni RST ni SYN/ACK). En este caso no aparecieron puertos filtrados porque no había un firewall activo en la interfaz loopback. En una red real con reglas `DROP` en `iptables`, muchos puertos aparecerían como filtrados. El dispositivo que normalmente causa ese estado es un firewall de red, un router con ACLs, o un host-based firewall.
 
 ---
 
@@ -153,7 +153,7 @@ Se ejecutó un escaneo con la intensidad de detección de versión al máximo pa
 
 ```bash
 nmap -sV --version-intensity 9 127.0.0.1
-```
+
 
 **Captura del resultado:**
 
@@ -161,12 +161,12 @@ nmap -sV --version-intensity 9 127.0.0.1
 
 **Análisis:**
 
-La salida fue prácticamente idéntica al escaneo `-sV` estándar: se identificó el puerto 22/tcp con **OpenSSH 9.3p2 Debian 1 (protocol 2.0)**. Esto es porque solo hay un servicio activo y su banner es sencillo.
+La salida fue prácticamente idéntica al escaneo -sV estándar: se identificó el puerto 22/tcp con OpenSSH 9.3p2 Debian 1 (protocol 2.0). Esto es porque solo hay un servicio activo y su banner es sencillo.
 
 La diferencia con `--version-intensity 9` se nota cuando hay **múltiples servicios** corriendo. Con la intensidad máxima, Nmap envía más sondas y puede capturar información adicional como:
 - La versión exacta de build de un servidor web (`Apache/2.4.57` vs solo `Apache`)
 - Las opciones de cifrado disponibles en SSH
-- Cabeceras HTTP con datos del framework o CMS (`X-Powered-By: PHP/8.1`)
+- Cabeceras HTTP con datos del framework o CMS (X-Powered-By: PHP/8.1)
 
 Esta información es valiosa para un atacante porque le permite buscar exploits muy específicos para esa versión exacta del software.
 
@@ -194,12 +194,12 @@ nmap -sV --script http-title,http-server-header,http-methods -p 8080 127.0.0.1
 
 El servidor Python se levantó correctamente en `0.0.0.0:8080`. Sin embargo, el comando de Nmap falló con el error:
 
-```
+
 NSE: failed to initialize the script engine:
 "http/methods" did not match a category, filename, or directory
-```
 
-El problema fue que el script se escribió como `http/methods` (con barra) en lugar de `http-methods` (con guión). El nombre correcto es `http-methods`. Al corregirlo, Nmap extrae:
+
+El problema fue que el script se escribió como `http/methods` (con barra) en lugar de http-methods (con guión). El nombre correcto es http-methods. Al corregirlo, Nmap extrae:
 
 - **Título de la página**: el `<title>` del HTML servido
 - **Cabecera del servidor**: por ejemplo `SimpleHTTP/0.6 Python/3.12.9`
@@ -235,29 +235,29 @@ sudo apt install lynis -y
 
 ![Instalación de Lynis con errores](images/image10.png)
 
-Durante la instalación se presentaron errores **404 Not Found** al intentar descargar los paquetes desde los repositorios de Kali (`http://kali.org`). Esto se debió a que los mirrors no estaban sincronizados o había un problema de conectividad en el momento. La solución habitual es ejecutar `sudo apt update` primero para refrescar los índices de paquetes.
+Durante la instalación se presentaron errores 404 Not Found al intentar descargar los paquetes desde los repositorios de Kali (http://kali.org). Esto se debió a que los mirrors no estaban sincronizados o había un problema de conectividad en el momento. La solución habitual es ejecutar `sudo apt update` primero para refrescar los índices de paquetes.
 
 ---
 
 ### Análisis de resultados esperados
 
-En un escaneo exitoso con `sudo lynis audit system`, la herramienta genera un reporte dividido en secciones:
+En un escaneo exitoso con sudo lynis audit system, la herramienta genera un reporte dividido en secciones:
 
-**Sección `[+] Warnings`** — advertencias de seguridad activas, por ejemplo:
+**Sección [+] Warnings** — advertencias de seguridad activas, por ejemplo:
 - SSH permite login como root (`PermitRootLogin yes` en `/etc/ssh/sshd_config`)
 - No hay firewall activo (`ufw` o `iptables` sin reglas)
 - Servicios innecesarios corriendo en background
 
-**Sección `[+] Suggestions`** — recomendaciones para mejorar la seguridad:
+**Sección [+] Suggestions** — recomendaciones para mejorar la seguridad:
 - Deshabilitar el acceso root por SSH
-- Configurar límites en `/etc/security/limits.conf`
-- Habilitar `SELinux` o `AppArmor` como control de acceso obligatorio
-- Instalar `AIDE` para monitoreo de integridad de archivos
+- Configurar límites en /etc/security/limits.conf
+- Habilitar SELinux o AppArmor como control de acceso obligatorio
+- Instalar AIDE para monitoreo de integridad de archivos
 
-**Hardening Index** — Lynis asigna una puntuación de **0 a 100** que resume el nivel general de seguridad. Un sistema recién instalado sin configurar suele obtener entre **55 y 65 puntos**. Para mejorar la puntuación se pueden aplicar medidas como:
+**Hardening Index** — Lynis asigna una puntuación de 0 a 100 que resume el nivel general de seguridad. Un sistema recién instalado sin configurar suele obtener entre 55 y 65 puntos. Para mejorar la puntuación se pueden aplicar medidas como:
 
-- Restringir permisos en archivos críticos (`/etc/passwd`, `/etc/shadow`)
-- Configurar `fail2ban` para bloquear intentos de fuerza bruta
-- Activar auditoría del sistema con `auditd`
+- Restringir permisos en archivos críticos (/etc/passwd, /etc/shadow)
+- Configurar fail2ban para bloquear intentos de fuerza bruta
+- Activar auditoría del sistema con auditd
 - Deshabilitar servicios y cuentas de usuario que no se usen
 - Aplicar actualizaciones de seguridad pendientes
