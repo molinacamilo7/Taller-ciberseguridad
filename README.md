@@ -97,7 +97,7 @@ nmap -T4 -sS 127.0.0.1
 
 **Análisis:**
 
-Ambos comandos fallaron con el mensaje `"You requested a scan type which requires root privileges"`. Esto ocurrió porque el escaneo SYN (-sS) requiere permisos de root para manipular paquetes a nivel de red y es necesario anteponer sudo.
+Ambos comandos fallaron con el mensaje "You requested a scan type which requires root privileges". Esto ocurrió porque el escaneo SYN (-sS) requiere permisos de root para manipular paquetes a nivel de red y es necesario anteponer sudo.
 
 Sin ese error, la diferencia de velocidad entre T0 y T4 sería muy notable:
 
@@ -141,7 +141,7 @@ Los resultados obtenidos fueron:
 | 443/tcp | closed | HTTPS |
 | 8080/tcp | closed | HTTP-Proxy |
 
-**¿Qué significa "filtered"?** Un puerto aparece como filtered cuando un firewall o dispositivo de red intermedio está bloqueando activamente los paquetes sin devolver ninguna respuesta (ni RST ni SYN/ACK). En este caso no aparecieron puertos filtrados porque no había un firewall activo en la interfaz loopback. En una red real con reglas `DROP` en iptables, muchos puertos aparecerían como filtrados. El dispositivo que normalmente causa ese estado es un firewall de red, un router con ACLs, o un host-based firewall.
+**¿Qué significa "filtered"?** Un puerto aparece como filtered cuando un firewall o dispositivo de red intermedio está bloqueando activamente los paquetes sin devolver ninguna respuesta (ni RST ni SYN/ACK). En este caso no aparecieron puertos filtrados porque no había un firewall activo en la interfaz loopback. En una red real con reglas DROP en iptables, muchos puertos aparecerían como filtrados. El dispositivo que normalmente causa ese estado es un firewall de red, un router con ACLs, o un host-based firewall.
 
 ---
 
@@ -215,7 +215,7 @@ En un servidor web mal configurado que permita estos métodos sin control de acc
 
 ## Punto 2 — Auditoría Local con Lynis
 
-El objetivo fue realizar una auditoría de seguridad del sistema local usando **Lynis**, una herramienta de código abierto que analiza más de 200 controles de configuración del sistema operativo y genera recomendaciones de endurecimiento.
+El objetivo fue realizar una auditoría de seguridad del sistema local usando Lynis, una herramienta de código abierto que analiza más de 200 controles de configuración del sistema operativo y genera recomendaciones de endurecimiento.
 
 ---
 
@@ -235,7 +235,7 @@ sudo apt install lynis -y
 
 ![Instalación de Lynis con errores](images/image10.png)
 
-Durante la instalación se presentaron errores 404 Not Found al intentar descargar los paquetes desde los repositorios de Kali (http://kali.org). Esto se debió a que los mirrors no estaban sincronizados o había un problema de conectividad en el momento. La solución habitual es ejecutar `sudo apt update` primero para refrescar los índices de paquetes.
+Durante la instalación se presentaron errores 404 Not Found al intentar descargar los paquetes desde los repositorios de Kali (http://kali.org). Esto se debió a que los mirrors no estaban sincronizados o había un problema de conectividad en el momento. La solución habitual es ejecutar sudo apt update primero para refrescar los índices de paquetes.
 
 ---
 
@@ -244,8 +244,8 @@ Durante la instalación se presentaron errores 404 Not Found al intentar descarg
 En un escaneo exitoso con sudo lynis audit system, la herramienta genera un reporte dividido en secciones:
 
 **Sección [+] Warnings** — advertencias de seguridad activas, por ejemplo:
-- SSH permite login como root (`PermitRootLogin yes` en `/etc/ssh/sshd_config`)
-- No hay firewall activo (`ufw` o `iptables` sin reglas)
+- SSH permite login como root (PermitRootLogin yes en /etc/ssh/sshd_config)
+- No hay firewall activo (ufw o iptables sin reglas)
 - Servicios innecesarios corriendo en background
 
 **Sección [+] Suggestions** — recomendaciones para mejorar la seguridad:
