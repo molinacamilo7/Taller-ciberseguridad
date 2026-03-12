@@ -119,7 +119,7 @@ Se realizó un escaneo SYN sigiloso sobre un conjunto de puertos de interés com
 
 **Comando ejecutado:**
 
-```bash
+
 sudo nmap -sS -p 80,443,22,25,110,143,8080 127.0.0.1
 
 
